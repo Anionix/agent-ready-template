@@ -7,12 +7,14 @@ on:
       - "!v*-baseline"
 
 permissions:
-  contents: write
-  id-token: write
+  contents: read
 
 jobs:
   signed-source-release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      id-token: write
 
     steps:
       - name: Harden runner audit
