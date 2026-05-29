@@ -96,7 +96,7 @@ Gold must remain blocked until the project state changes:
 | --- | --- | --- |
 | `bus_factor` | Unmet | Current bus factor is one. Private continuity is not the same as a bus factor of two. |
 | `contributors_unassociated` | Blocked | The project does not yet have two significant unaffiliated contributors. |
-| `code_review_standards` | N/A with justification | Solo-maintainer hybrid mode documents review expectations, but separate-review standards are not required for routine operation. |
+| `code_review_standards` | Unmet | Solo-maintainer hybrid mode documents contribution and verification expectations, but the project does not yet claim full code-review standards covering review conduct, checked criteria, acceptance criteria, and enforcement evidence. |
 | `two_person_review` | Unmet | Solo-maintainer hybrid mode remains allowed. Do not claim 50% independent review. |
 | `require_2FA` / `secure_2FA` | Manual verification required | Do not claim until the GitHub account or organization 2FA posture is verified. |
 | `copyright_per_file` / `license_per_file` | Not claimed | The repository has a root MIT license, but per-file copyright/SPDX coverage is not complete. |
