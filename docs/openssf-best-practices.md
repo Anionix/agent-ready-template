@@ -81,7 +81,7 @@ not blockers for honestly migrating the existing Silver baseline.
 | Branch and review policy | Met with solo-maintainer caveat | `main` uses pull requests and required checks, but normal changes do not require separate human approval. Do not use this as evidence for two-person review. |
 | Documentation | Met | `README.md`, `docs/architecture.md`, `docs/roadmap.md`, `docs/threat-model.md`, and `docs/development.md` are current for the clean template. |
 | Release process | Partially met | `docs/release-process.md`, `docs/release-signing.md`, `.github/workflows/release.yml`, and `CHANGELOG.md` define the intended release process. |
-| Signed releases | Unmet until `v0.1.2` artifacts are published and verified | The old `v0.1.1` signed release proves baseline provenance only. Active evidence for `Anionix/agent-ready-template` starts with `v0.1.2`. |
+| Signed releases | Met | The old `v0.1.1` signed release proves baseline provenance only. Active evidence for `Anionix/agent-ready-template` starts with verified `v0.1.2` release artifacts. |
 | Scorecard `MaintainedID` | Tracked open risk | Repository age is under 90 days. Keep active maintenance evidence and re-run Scorecard after the age gate clears. |
 | Scorecard `CodeReviewID` | Tracked open risk | Solo/bootstrap history does not provide approved changesets. Track honestly; do not dismiss as fixed or claim two-person review. |
 | Version-control tag signatures | Unmet with justification | Release artifacts can be signed, but git tags themselves are not claimed as signed. |
@@ -106,8 +106,8 @@ Gold must remain blocked until the project state changes:
 1. Open each proposal URL in `docs/openssf-best-practices-proposals.md`.
 2. Review the highlighted OpenSSF UI changes and save only the values that are
    true for `Anionix/agent-ready-template`.
-3. Before saving `signed_releases=Met`, publish and verify the `v0.1.2` signed
-   SemVer release artifacts for this repository. Otherwise leave it `Unmet`.
+3. Save `signed_releases=Met` only after verifying the `v0.1.2` signed SemVer
+   release artifacts for this repository.
 4. Read back `https://www.bestpractices.dev/projects/12855.json`.
 5. Add a live README badge only after the readback confirms migrated Silver and
    old private repository links are gone from active criterion justifications.
