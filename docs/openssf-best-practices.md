@@ -48,6 +48,23 @@ both:
 - Keep the README badge withheld until a clean OpenSSF readback confirms the
   migrated state.
 
+## Solo Maintainer Policy
+
+This repository is intentionally operated in solo-maintainer hybrid mode:
+changes use pull requests and required checks, but routine operation does not
+require a separate human reviewer. That is an explicit operating model, not a
+claim that two-person review is satisfied.
+
+OpenSSF Best Practices proposals should say this directly. Solo operation,
+bus factor one, and missing independent-review evidence must remain visible in
+the project record instead of being hidden behind branch-protection wording.
+
+OpenSSF Best Practices and Scorecard are separate signals. The Scorecard
+`MaintainedID` alert is an age gate for a repository created within the last
+90 days, and the Scorecard `CodeReviewID` alert is recent-history evidence for
+approved changesets. Those alerts are tracked as bootstrap/solo risks; they are
+not blockers for honestly migrating the existing Silver baseline.
+
 ## Evidence Map
 
 | Area | Status for this repository | Current evidence |
@@ -61,9 +78,12 @@ both:
 | CI and checks | Met | `.github/workflows/ci.yml`, `mise.toml`, and the repository scripts define required validation. |
 | Static analysis | Met | CodeQL, ShellCheck, actionlint, Hadolint, workflow pin audits, Dockerfile pin audits, and secret scanning are documented in `docs/security-workflows.md` and `mise.toml`. |
 | Governance | Met with solo-maintainer caveat | `GOVERNANCE.md` and `MAINTAINERS.md` document roles and emergency continuity. |
+| Branch and review policy | Met with solo-maintainer caveat | `main` uses pull requests and required checks, but normal changes do not require separate human approval. Do not use this as evidence for two-person review. |
 | Documentation | Met | `README.md`, `docs/architecture.md`, `docs/roadmap.md`, `docs/threat-model.md`, and `docs/development.md` are current for the clean template. |
 | Release process | Partially met | `docs/release-process.md`, `docs/release-signing.md`, `.github/workflows/release.yml`, and `CHANGELOG.md` define the intended release process. |
 | Signed releases | Unmet for the new repo until a signed SemVer release exists | The old `v0.1.1` signed release proves baseline provenance only. It must not be used as active evidence for `Anionix/agent-ready-template`. |
+| Scorecard `MaintainedID` | Tracked open risk | Repository age is under 90 days. Keep active maintenance evidence and re-run Scorecard after the age gate clears. |
+| Scorecard `CodeReviewID` | Tracked open risk | Solo/bootstrap history does not provide approved changesets. Track honestly; do not dismiss as fixed or claim two-person review. |
 | Version-control tag signatures | Unmet with justification | Release artifacts can be signed, but git tags themselves are not claimed as signed. |
 | Product cryptography | N/A | The template does not implement product cryptography or a network protocol. |
 | Product hardening | N/A | The template does not publish a compiled product binary or hosted application requiring runtime hardening. |
@@ -76,7 +96,8 @@ Gold must remain blocked until the project state changes:
 | --- | --- | --- |
 | `bus_factor` | Unmet | Current bus factor is one. Private continuity is not the same as a bus factor of two. |
 | `contributors_unassociated` | Blocked | The project does not yet have two significant unaffiliated contributors. |
-| `two_person_review` | Blocked | Solo admin merge remains allowed. Do not claim 50% independent review. |
+| `code_review_standards` | N/A with justification | Solo-maintainer hybrid mode documents review expectations, but separate-review standards are not required for routine operation. |
+| `two_person_review` | Unmet | Solo-maintainer hybrid mode remains allowed. Do not claim 50% independent review. |
 | `require_2FA` / `secure_2FA` | Manual verification required | Do not claim until the GitHub account or organization 2FA posture is verified. |
 | `copyright_per_file` / `license_per_file` | Not claimed | The repository has a root MIT license, but per-file copyright/SPDX coverage is not complete. |
 
