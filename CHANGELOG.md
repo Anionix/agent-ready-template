@@ -4,12 +4,19 @@ All notable changes to this repository are recorded here.
 
 This project uses Semantic Versioning for tagged releases.
 
-## v0.1.1 - 2026-05-17
+## v0.1.2 - 2026-05-30
 
-- Added Sigstore keyless source release signing for release artifacts starting
-  with `v0.1.1`.
-- Added OpenSSF Best Practices Silver evidence for private continuity,
-  release-artifact signing, and honest solo-maintainer limits.
+- Published the first signed SemVer release for `Anionix/agent-ready-template`
+  after the migrated `v0.1.1-baseline` provenance tag.
+- Updated OpenSSF Best Practices evidence to use new-repository release
+  artifacts while keeping solo-maintainer Gold blockers honest.
+
+## v0.1.1-baseline - 2026-05-17
+
+- Preserved the migrated `agent-ready-repo-template-spec@v0.1.1` OpenSSF
+  Silver baseline as provenance for this repository.
+- Kept historical evidence for private continuity, release-artifact signing,
+  and honest solo-maintainer limits.
 
 ## v0.1.0 - 2026-05-17
 

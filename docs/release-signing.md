@@ -1,13 +1,14 @@
 # Release Signing
 
 This repository signs public source release artifacts with Sigstore keyless
-signing starting with `v0.1.1`. The `v0.1.0` tag is a pre-Silver bootstrap
-release and is not used as signed-release evidence.
+signing starting with `v0.1.2`. The `v0.1.1-baseline` tag records migrated
+baseline provenance and is not used as active signed-release evidence for this
+repository.
 
 ## Published artifacts
 
-For each `vMAJOR.MINOR.PATCH` tag after `v0.1.0`, the release workflow publishes
-these files to the GitHub Release:
+For each `vMAJOR.MINOR.PATCH` tag starting with `v0.1.2`, the release workflow
+publishes these files to the GitHub Release:
 
 - `agent-ready-template-vMAJOR.MINOR.PATCH.tar.gz`
 - `agent-ready-template-vMAJOR.MINOR.PATCH.tar.gz.sha256`
@@ -23,7 +24,7 @@ Install Cosign, download the three release artifacts, and verify both the
 checksum and Sigstore bundle:
 
 ```sh
-version=v0.1.1
+version=v0.1.2
 artifact="agent-ready-template-${version}.tar.gz"
 
 sha256sum -c "${artifact}.sha256"
