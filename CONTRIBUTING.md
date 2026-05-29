@@ -30,4 +30,4 @@ Signed-off-by: Your Name <your.email@example.com>
 
 ## Review and merge
 
-This repository currently allows solo maintainer admin merges when CI is green and live review threads are resolved. That is an explicit operational exception, not a claim of two-person review. If the repository later targets full OpenSSF Best Practices Gold, the review policy must change to require independent human review.
+This repository currently allows solo maintainer merges when CI is green and live review threads are resolved. Separate human approval is not required for routine changes. That is an explicit operational exception, not a claim of two-person review. If the repository later changes its operating model, independent review evidence can be added; until then OpenSSF two-person review remains unmet.

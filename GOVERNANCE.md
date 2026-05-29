@@ -12,7 +12,8 @@ This repository is a public template maintained by `Anionix`.
 
 - Routine documentation and template-contract changes are handled through issues and pull requests.
 - Security, release, branch-protection, and public-template policy changes require green CI plus explicit maintainer review of residual risk.
-- The current solo operating mode permits admin squash merge after required checks pass and live review threads are resolved.
+- The current solo operating mode permits maintainer or admin merge after required checks pass and live review threads are resolved.
+- Normal changes do not require a separate human approval. This is a deliberate solo-maintainer exception, not a claim of two-person review.
 
 ## Continuity
 
@@ -27,7 +28,7 @@ this repository.
 
 The current bus factor is one. That is acceptable for the selected solo
 operating mode, and continuity is handled through the private recovery
-procedure above, but bus factor remains a separate blocker for an honest claim
-of full OpenSSF Best Practices Gold. To remove that blocker, the project must
-add at least one independent maintainer or reviewer and require independent
-human review for a meaningful share of proposed modifications.
+procedure above, but bus factor and two-person review remain blockers for an
+honest claim of full OpenSSF Best Practices Gold. If the operating model later
+changes, those criteria can be revisited; until then they should be reported as
+unmet or not applicable instead of enforced through routine approval gates.
