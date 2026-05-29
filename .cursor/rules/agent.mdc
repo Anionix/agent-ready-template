@@ -1,0 +1,19 @@
+---
+description: Agent workflow for this repository
+alwaysApply: true
+---
+
+Use `AGENTS.md` as the source of truth.
+
+Required workflow:
+1. Read `AGENTS.md`.
+2. Use `mise run doctor`.
+3. Use `mise run install` if dependencies are missing.
+4. Use `mise run services` when tests require local services.
+5. Use `mise run check` before completion.
+6. Report changed files, commands run, and remaining risks.
+
+日本語:
+- `AGENTS.md` を正本として扱う。
+- 完了前に `mise run check` を実行する。
+- 変更ファイル、実行コマンド、残リスクを報告する。

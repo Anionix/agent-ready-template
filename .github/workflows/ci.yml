@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden runner audit
+        uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
+        with:
+          egress-policy: audit
+
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          fetch-depth: 0
+
+      - uses: jdx/mise-action@43db152e9b8a8416d4b9070a7057d9bf84c447da
+
+      - name: Install tools
+        run: mise install
+
+      - name: Validate environment
+        run: mise run doctor
+
+      - name: Install dependencies
+        run: mise run install
+
+      - name: Lint workflows
+        run: mise run workflow-lint
+
+      - name: Audit workflow pins
+        run: mise run workflow-pin-audit
+
+      - name: Validate agent readiness
+        run: mise run agent-ready
+
+      - name: Validate public release readiness
+        run: mise run public-release-check
+
+      - name: Scan for secrets
+        run: scripts/secret-scan.sh --skip-public-release-check
+
+      - name: Start services
+        run: docker compose up -d
+
+      - name: Wait for services
+        run: scripts/wait-for-services.sh
+
+      - name: Run checks
+        run: mise run check

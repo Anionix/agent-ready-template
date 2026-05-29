@@ -1,0 +1,56 @@
+# Documentation-grade starter for a Michael-style NixOS microVM dev profile.
+# Adapt paths, users, packages, network policy, and flake wiring before use.
+
+{ config, pkgs, lib, ... }:
+
+{
+  microvm = {
+    hypervisor = "cloud-hypervisor";
+    vcpu = 2;
+    mem = 4096;
+
+    shares = [
+      {
+        tag = "workspace";
+        source = "/path/to/project";
+        mountPoint = "/workspace";
+        proto = "virtiofs";
+        socket = "workspace.sock";
+      }
+    ];
+
+    interfaces = [
+      {
+        type = "tap";
+        id = "vm-agent0";
+        mac = "02:00:00:00:00:01";
+      }
+    ];
+  };
+
+  users.users.agent = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" ];
+  };
+
+  environment.systemPackages = with pkgs; [
+    bash
+    coreutils
+    curl
+    git
+    mise
+    ripgrep
+  ];
+
+  networking.hostName = "agent-devvm";
+  networking.firewall.enable = true;
+
+  # Start stricter than the host. Open only the egress needed for the task.
+  # For lethal-trifecta work, prefer no outbound access or an allowlisted proxy.
+  networking.useDHCP = false;
+
+  services.openssh.enable = true;
+  services.openssh.settings.PasswordAuthentication = false;
+
+  system.stateVersion = "25.11";
+}

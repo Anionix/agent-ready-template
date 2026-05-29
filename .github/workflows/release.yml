@@ -1,0 +1,115 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+      - "!v*-baseline"
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  signed-source-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Harden runner audit
+        uses: step-security/harden-runner@ab7a9404c0f3da075243ca237b5fac12c98deaa5
+        with:
+          egress-policy: audit
+
+      - name: Check out repository
+        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          fetch-depth: 0
+
+      - name: Resolve release tag
+        id: tag
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          git fetch --no-tags origin main:refs/remotes/origin/main
+
+          tag_commit="$(git rev-list -n 1 "$GITHUB_REF_NAME")"
+          if ! git merge-base --is-ancestor "$tag_commit" origin/main; then
+            echo "error: tag $GITHUB_REF_NAME does not point to a commit on origin/main"
+            exit 1
+          fi
+
+          if [[ ! "$GITHUB_REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "error: tag $GITHUB_REF_NAME is not a SemVer release tag"
+            exit 1
+          fi
+
+          printf 'tag_commit=%s\n' "$tag_commit" >>"$GITHUB_OUTPUT"
+
+      - name: Build source archive
+        id: artifact
+        shell: bash
+        env:
+          TAG_COMMIT: ${{ steps.tag.outputs.tag_commit }}
+        run: |
+          set -euo pipefail
+
+          release_name="agent-ready-template-${GITHUB_REF_NAME}"
+          archive="${release_name}.tar.gz"
+
+          git archive \
+            --format=tar.gz \
+            --prefix="${release_name}/" \
+            "$TAG_COMMIT" \
+            -o "$archive"
+
+          sha256sum "$archive" >"${archive}.sha256"
+
+          printf 'archive=%s\n' "$archive" >>"$GITHUB_OUTPUT"
+
+      - name: Install cosign
+        uses: sigstore/cosign-installer@6f9f17788090df1f26f669e9d70d6ae9567deba6
+        with:
+          cosign-release: v3.0.6
+
+      - name: Sign source archive
+        shell: bash
+        env:
+          ARCHIVE: ${{ steps.artifact.outputs.archive }}
+          COSIGN_YES: "true"
+        run: |
+          set -euo pipefail
+
+          cosign sign-blob "$ARCHIVE" --bundle "${ARCHIVE}.sigstore.json"
+
+      - name: Publish GitHub Release
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARCHIVE: ${{ steps.artifact.outputs.archive }}
+        run: |
+          set -euo pipefail
+
+          notes_file="$(mktemp)"
+          {
+            echo "Signed source release for ${GITHUB_REF_NAME}."
+            echo
+            echo "Verification instructions: https://github.com/Anionix/agent-ready-template/blob/${GITHUB_REF_NAME}/docs/release-signing.md"
+            echo "Release notes: https://github.com/Anionix/agent-ready-template/blob/${GITHUB_REF_NAME}/CHANGELOG.md"
+          } >"$notes_file"
+
+          if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
+            gh release upload "$GITHUB_REF_NAME" \
+              "$ARCHIVE" \
+              "${ARCHIVE}.sha256" \
+              "${ARCHIVE}.sigstore.json" \
+              --clobber
+          else
+            gh release create "$GITHUB_REF_NAME" \
+              "$ARCHIVE" \
+              "${ARCHIVE}.sha256" \
+              "${ARCHIVE}.sigstore.json" \
+              --title "$GITHUB_REF_NAME" \
+              --notes-file "$notes_file" \
+              --verify-tag
+          fi

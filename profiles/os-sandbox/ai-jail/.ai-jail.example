@@ -1,0 +1,14 @@
+# Starter ai-jail policy for an agent-ready repository.
+# Copy to .ai-jail and adjust for the project before use.
+#
+# Keep local secrets out of the sandboxed process by default.
+# Pair this file with flags such as:
+#   ai-jail --private-home --dry-run claude
+#   ai-jail --private-home claude
+mask = [
+  ".env",
+  ".env.local",
+  ".env.development",
+  ".env.production",
+  "secrets",
+]

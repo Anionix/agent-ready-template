@@ -1,0 +1,143 @@
+[tools]
+node = "22"
+python = "3.12"
+uv = "latest"
+actionlint = "latest"
+gitleaks = "latest"
+trufflehog = "latest"
+shellcheck = "latest"
+go = "1.22.12"
+
+[tasks.doctor]
+description = "Check local development prerequisites / ローカル開発の前提条件を確認"
+run = "scripts/doctor.sh"
+
+[tasks.doctor-static]
+description = "Run Docker-free static repository checks / Dockerなしの静的repo検証を実行"
+run = "scripts/doctor.sh --static"
+
+[tasks.install]
+description = "Install dependencies / 依存関係をインストール"
+run = """
+if [ -f package.json ]; then
+  corepack enable
+  if [ -f pnpm-lock.yaml ]; then
+    corepack pnpm install --frozen-lockfile
+  else
+    corepack pnpm install
+  fi
+else
+  echo 'No package.json found; skipping install for template repository.'
+fi
+"""
+
+[tasks.services]
+description = "Start local services / ローカルサービスを起動"
+run = "docker compose up -d"
+
+[tasks.dev]
+description = "Start development server / 開発サーバーを起動"
+depends = ["services"]
+run = "if [ -f package.json ]; then corepack pnpm dev; else echo 'No package.json found; add an app before running dev.'; fi"
+
+[tasks.lint]
+description = "Run lint / lintを実行"
+run = "if [ -f package.json ]; then corepack pnpm run lint --if-present; else echo 'No package.json found; skipping lint for template repository.'; fi"
+
+[tasks.typecheck]
+description = "Run type checks / 型チェックを実行"
+run = "if [ -f package.json ]; then corepack pnpm run typecheck --if-present; else echo 'No package.json found; skipping typecheck for template repository.'; fi"
+
+[tasks.test]
+description = "Run tests / テストを実行"
+run = "if [ -f package.json ]; then corepack pnpm run test --if-present; else echo 'No package.json found; skipping tests for template repository.'; fi"
+
+[tasks.check]
+description = "Run all required checks / 必須チェックをすべて実行"
+depends = ["lint", "typecheck", "test", "shellcheck", "dockerfile-lint", "fuzz"]
+
+[tasks.workflow-lint]
+description = "Lint GitHub Actions workflows / GitHub Actions workflowをlint"
+run = "actionlint .github/workflows/*.yml"
+
+[tasks.workflow-pin-audit]
+description = "Require GitHub Actions to use full commit SHA pins / GitHub Actionsのfull SHA pinを確認"
+run = "scripts/workflow-pin-audit.sh"
+
+[tasks.dockerfile-pin-audit]
+description = "Require optional Dockerfiles to pin bases and avoid download-to-shell pipelines / 任意Dockerfileのbase pinとdownload-to-shell禁止を確認"
+run = "scripts/dockerfile-pin-audit.sh"
+
+[tasks.dockerfile-lint]
+description = "Lint optional Dockerfiles / 任意Dockerfileをlint"
+run = "scripts/hadolint.sh optional/sandbox/Dockerfile optional/devcontainer/Dockerfile optional/gemini/sandbox.Dockerfile .clusterfuzzlite/Dockerfile"
+
+[tasks.shellcheck]
+description = "Lint shell scripts / shell scriptをlint"
+run = "shellcheck scripts/*.sh"
+
+[tasks.fuzz]
+description = "Run optional fuzz harness / 任意fuzz harnessを実行"
+run = """
+mkdir -p .cache/go-build
+GOCACHE="${GOCACHE:-$PWD/.cache/go-build}" go test ./fuzz
+"""
+
+[tasks.go-coverage]
+description = "Generate Go coverage evidence where measurable / 測定可能なGo coverage evidenceを生成"
+run = """
+mkdir -p .cache/go-build coverage
+GOCACHE="${GOCACHE:-$PWD/.cache/go-build}" go test -coverprofile=coverage/fuzz.out ./fuzz
+go tool cover -func=coverage/fuzz.out
+"""
+
+[tasks.sandbox-profiles]
+description = "List optional sandbox profiles / 任意sandbox profileを表示"
+run = "scripts/sandbox-profiles.sh"
+
+[tasks.reset]
+description = "Reset local services / ローカルサービスを初期化"
+run = "docker compose down -v && docker compose up -d"
+
+[tasks.agent-ready]
+description = "Check whether this repository is ready for AI coding agents / AI coding agent向けready状態を確認"
+run = "scripts/agent-ready-check.sh"
+
+[tasks.agent-ready-json]
+description = "Emit machine-readable agent readiness status / agent readiness状態をJSONで出力"
+run = "scripts/agent-ready-check.sh --json"
+
+[tasks.agent-ready-static-json]
+description = "Emit Docker-free static agent readiness JSON / Dockerなしの静的agent readiness JSONを出力"
+run = "scripts/agent-ready-check.sh --static --json"
+
+[tasks.public-release-check]
+description = "Check whether this repository is safe to prepare for public release / 公開準備の安全性を確認"
+run = "scripts/public-release-check.sh"
+
+[tasks.secret-scan]
+description = "Run public release and dedicated secret scanners / 公開前checkと専用secret scannerを実行"
+run = "scripts/secret-scan.sh"
+
+[tasks.release-check]
+description = "Run the full public-template release gate / 公開テンプレートrelease gateを実行"
+run = """
+mise run doctor
+mise run install
+mise run workflow-lint
+mise run workflow-pin-audit
+mise run dockerfile-pin-audit
+mise run shellcheck
+mise run agent-ready
+mise run public-release-check
+scripts/secret-scan.sh --skip-public-release-check
+mise run check
+"""
+
+[tasks.github-protection-status]
+description = "Show GitHub branch protection and ruleset availability / GitHub保護設定の状態を表示"
+run = "scripts/github-protection-status.sh"
+
+[tasks.github-main-protection-apply]
+description = "Apply post-public main branch protection / 公開後のmain branch protectionを適用"
+run = "scripts/apply-main-branch-protection.sh --apply"
