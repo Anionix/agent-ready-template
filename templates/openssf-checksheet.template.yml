@@ -1,0 +1,175 @@
+schema_version: 1
+project:
+  project_id: "<PROJECT_ID>"
+  target_repo: "<TARGET_REPO_URL>"
+  target_homepage: "<TARGET_HOMEPAGE_URL>"
+  expected_badge_level: "<EXPECTED_BADGE_LEVEL>"
+  old_references: []
+  notes: "Copy this template for each OpenSSF Best Practices project refresh."
+choice_sets:
+  track:
+    - metal
+    - osps
+    - readback
+  level:
+    - passing
+    - silver
+    - gold
+    - baseline-1
+    - baseline-2
+    - baseline-3
+    - readback
+  category:
+    - identity
+    - contribution_license
+    - repo_release
+    - reporting_vulnerability
+    - build_install_dependencies
+    - testing_quality
+    - warnings_analysis
+    - security_design
+    - crypto
+    - governance_review
+    - gold_blockers
+    - osps_access_control
+    - osps_build_release
+    - osps_documentation
+    - osps_governance
+    - osps_legal
+    - osps_quality
+    - osps_security_assessment
+    - osps_vulnerability_management
+    - readback
+  status:
+    - Met
+    - N/A
+    - Unmet
+    - "?"
+  evidence_type:
+    - repo_file
+    - release
+    - workflow
+    - issue_or_pr
+    - security_advisory
+    - project_setting
+    - manual_admin_proof
+    - not_applicable_rationale
+    - none
+  boolean_choice:
+    - "yes"
+    - "no"
+  save_state:
+    - not_started
+    - drafted
+    - opened
+    - saved
+    - readback_passed
+    - blocked
+    - deferred
+  review_decision:
+    - accept
+    - revise
+    - keep_unknown
+    - keep_unmet
+    - keep_na
+    - defer
+columns:
+  - name: project_id
+    required: true
+  - name: target_repo
+    required: true
+  - name: track
+    required: true
+    choices: track
+  - name: level
+    required: true
+    choices: level
+  - name: category
+    required: true
+    choices: category
+  - name: criterion_key
+    required: true
+  - name: current_status
+    required: true
+    choices: status
+  - name: target_status
+    required: true
+    choices: status
+  - name: current_justification
+    required: true
+  - name: target_justification
+    required: true
+  - name: evidence_type
+    required: true
+    choices: evidence_type
+  - name: evidence_url
+    required: false
+  - name: stale_reference
+    required: true
+    choices: boolean_choice
+  - name: manual_proof_required
+    required: true
+    choices: boolean_choice
+  - name: save_state
+    required: true
+    choices: save_state
+  - name: review_decision
+    required: true
+    choices: review_decision
+  - name: save_url
+    required: false
+  - name: owner
+    required: false
+  - name: checked
+    required: true
+    choices: boolean_choice
+  - name: notes
+    required: false
+workflow_steps:
+  - step: 1
+    section: passing/edit
+    rows: "Passing and identity rows"
+  - step: 2
+    section: silver/edit governance/docs
+    rows: "Silver governance and documentation rows"
+  - step: 3
+    section: silver/edit quality/build
+    rows: "Silver build, install, dependency, and QA rows"
+  - step: 4
+    section: silver/edit security/release
+    rows: "Silver security, cryptography, and release rows"
+  - step: 5
+    section: gold/edit caveats
+    rows: "Gold review caveat rows"
+  - step: 6
+    section: baseline-1/edit
+    rows: "OSPS Baseline 1 rows"
+  - step: 7
+    section: baseline-2/edit
+    rows: "OSPS Baseline 2 rows"
+  - step: 8
+    section: baseline-3/edit
+    rows: "OSPS Baseline 3 rows"
+  - step: 9
+    section: JSON readback
+    rows: "Project-wide verification rows"
+final_readback_rows:
+  - criterion_key: repo_url
+    category: identity
+    pass_value: "Target repository URL"
+  - criterion_key: homepage_url
+    category: identity
+    pass_value: "Target homepage URL"
+  - criterion_key: badge_level
+    category: identity
+    pass_value: "Expected badge level"
+  - criterion_key: stale_reference_count
+    category: readback
+    pass_value: "0"
+  - criterion_key: overclaimed_gold_count
+    category: gold_blockers
+    pass_value: "0"
+  - criterion_key: manual_proof_pending_count
+    category: readback
+    pass_value: "Known and documented"
+rows: []
