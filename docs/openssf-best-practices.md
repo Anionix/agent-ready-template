@@ -35,10 +35,14 @@ both:
 - Gold: https://www.bestpractices.dev/en/projects/12855/gold
 - Baseline 3: https://www.bestpractices.dev/en/projects/12855/baseline-3
 - JSON readback: https://www.bestpractices.dev/projects/12855.json
+- Tracking sheet: `docs/openssf-checksheet-12855.yml`
+- Workbench: https://github.com/Anionix/ossf-badge-workbench
 
 ## Migration Policy
 
 - Keep project `12855`; do not create a second OpenSSF project for this repo.
+- Use `ossf-badge-workbench` for row-level tracking, conservative autofill,
+  criterion proposal URL generation, and final readback summaries.
 - Use reviewable automation proposal URLs from
   `docs/openssf-best-practices-proposals.md`; do not commit
   `.bestpractices.json` yet.
@@ -103,11 +107,13 @@ Gold must remain blocked until the project state changes:
 
 ## Save And Readback Flow
 
-1. Open each proposal URL in `docs/openssf-best-practices-proposals.md`.
-2. Review the highlighted OpenSSF UI changes and save only the values that are
+1. Review `docs/openssf-checksheet-12855.yml` before changing the OpenSSF UI.
+2. Open each proposal URL in `docs/openssf-best-practices-proposals.md` or
+   generate criterion-level proposal URLs with `ossf-badge-workbench`.
+3. Review the highlighted OpenSSF UI changes and save only the values that are
    true for `Anionix/agent-ready-template`.
-3. Save `signed_releases=Met` only after verifying the `v0.1.2` signed SemVer
+4. Save `signed_releases=Met` only after verifying the `v0.1.2` signed SemVer
    release artifacts for this repository.
-4. Read back `https://www.bestpractices.dev/projects/12855.json`.
-5. Add a live README badge only after the readback confirms migrated Silver and
+5. Read back `https://www.bestpractices.dev/projects/12855.json`.
+6. Add a live README badge only after the readback confirms migrated Silver and
    old private repository links are gone from active criterion justifications.

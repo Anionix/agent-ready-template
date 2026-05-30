@@ -7,6 +7,11 @@ project:
   old_references:
     - "example-old/project"
   notes: "Small example showing representative row states."
+source:
+  project_json_url: "https://www.bestpractices.dev/projects/42.json"
+  generated_by: "ossf-badge-workbench"
+  generated_at: "2026-05-30T00:00:00Z"
+  notes: "Example values only."
 choice_sets:
   track:
     - metal
@@ -74,6 +79,11 @@ choice_sets:
     - keep_unmet
     - keep_na
     - defer
+  autofill_confidence:
+    - high
+    - medium
+    - low
+    - manual
 columns:
   - name: project_id
     required: true
@@ -118,6 +128,15 @@ columns:
     required: true
     choices: review_decision
   - name: save_url
+    required: false
+  - name: save_step
+    required: false
+  - name: autofill_rule_id
+    required: false
+  - name: autofill_confidence
+    required: false
+    choices: autofill_confidence
+  - name: autofill_reason
     required: false
   - name: owner
     required: false

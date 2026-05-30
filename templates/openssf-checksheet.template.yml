@@ -6,6 +6,11 @@ project:
   expected_badge_level: "<EXPECTED_BADGE_LEVEL>"
   old_references: []
   notes: "Copy this template for each OpenSSF Best Practices project refresh."
+source:
+  project_json_url: "<PROJECT_JSON_URL>"
+  generated_by: "ossf-badge-workbench"
+  generated_at: "<GENERATED_AT>"
+  notes: "Conservative autofill keeps uncertain and admin-only claims deferred."
 choice_sets:
   track:
     - metal
@@ -73,6 +78,11 @@ choice_sets:
     - keep_unmet
     - keep_na
     - defer
+  autofill_confidence:
+    - high
+    - medium
+    - low
+    - manual
 columns:
   - name: project_id
     required: true
@@ -117,6 +127,15 @@ columns:
     required: true
     choices: review_decision
   - name: save_url
+    required: false
+  - name: save_step
+    required: false
+  - name: autofill_rule_id
+    required: false
+  - name: autofill_confidence
+    required: false
+    choices: autofill_confidence
+  - name: autofill_reason
     required: false
   - name: owner
     required: false

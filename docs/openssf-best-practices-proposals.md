@@ -12,7 +12,9 @@ they do not commit `.bestpractices.json`. Each URL includes `overrides=` so
 existing old-repo evidence is highlighted for deliberate replacement.
 
 For reusable row-level tracking across repository migrations or badge refreshes,
-use `docs/openssf-checksheet-template.md`.
+use `docs/openssf-checksheet-template.md`. The generated project tracking sheet
+for this repository is `docs/openssf-checksheet-12855.yml`; the generic CLI
+workbench lives at https://github.com/Anionix/ossf-badge-workbench.
 
 ## Save Order
 
@@ -74,3 +76,8 @@ Expected values after successful migration cleanup:
 - `badge_level`: `silver`, after the signed-release field is honestly handled
 - Active criterion justifications should not depend on
   `agent-ready-repo-template-spec`.
+
+The current generated tracking sheet has 196 OpenSSF criterion rows plus 6
+project readback rows. As of generation, it records 53 stale old-repository
+references and 3 manual/admin-proof rows that must be resolved or documented
+before final clean readback.

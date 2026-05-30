@@ -57,6 +57,24 @@
       },
       "additionalProperties": false
     },
+    "source": {
+      "type": "object",
+      "properties": {
+        "project_json_url": {
+          "type": "string"
+        },
+        "generated_by": {
+          "type": "string"
+        },
+        "generated_at": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
     "choice_sets": {
       "type": "object",
       "required": [
@@ -125,6 +143,13 @@
             "$ref": "#/$defs/review_decision"
           },
           "uniqueItems": true
+        },
+        "autofill_confidence": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/autofill_confidence"
+          },
+          "uniqueItems": true
         }
       },
       "additionalProperties": false
@@ -156,7 +181,8 @@
               "evidence_type",
               "boolean_choice",
               "save_state",
-              "review_decision"
+              "review_decision",
+              "autofill_confidence"
             ]
           }
         },
@@ -323,6 +349,15 @@
         "defer"
       ]
     },
+    "autofill_confidence": {
+      "type": "string",
+      "enum": [
+        "high",
+        "medium",
+        "low",
+        "manual"
+      ]
+    },
     "row": {
       "type": "object",
       "required": [
@@ -396,6 +431,19 @@
           "$ref": "#/$defs/review_decision"
         },
         "save_url": {
+          "type": "string"
+        },
+        "save_step": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "autofill_rule_id": {
+          "type": "string"
+        },
+        "autofill_confidence": {
+          "$ref": "#/$defs/autofill_confidence"
+        },
+        "autofill_reason": {
           "type": "string"
         },
         "owner": {
