@@ -135,6 +135,10 @@ profile採用前に `docs/threat-model.md`、`docs/sandbox-profiles.md`、`docs/
 - `docs/ci-runner-hardening.md`
 - `docs/architecture.md`
 - `docs/openssf-best-practices.md`
+- `docs/openssf-checksheet-template.md`
+- `templates/openssf-checksheet.template.yml`
+- `schemas/openssf-checksheet.schema.json`
+- `examples/openssf-checksheet.example.yml`
 - `docs/release-process.md`
 - `docs/security-workflows.md`
 - `docs/roadmap.md`

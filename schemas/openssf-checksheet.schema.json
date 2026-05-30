@@ -1,0 +1,414 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/schemas/openssf-checksheet.schema.json",
+  "title": "Generic OpenSSF checksheet",
+  "description": "Human-editable OpenSSF Best Practices checksheet source used to track criterion status, evidence, stale references, and readback state.",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "project",
+    "choice_sets",
+    "columns",
+    "workflow_steps",
+    "final_readback_rows",
+    "rows"
+  ],
+  "properties": {
+    "schema_version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "target_repo",
+        "target_homepage",
+        "expected_badge_level",
+        "old_references"
+      ],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_homepage": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected_badge_level": {
+          "type": "string",
+          "minLength": 1
+        },
+        "old_references": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "choice_sets": {
+      "type": "object",
+      "required": [
+        "track",
+        "level",
+        "category",
+        "status",
+        "evidence_type",
+        "boolean_choice",
+        "save_state",
+        "review_decision"
+      ],
+      "properties": {
+        "track": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/track"
+          },
+          "uniqueItems": true
+        },
+        "level": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/level"
+          },
+          "uniqueItems": true
+        },
+        "category": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/category"
+          },
+          "uniqueItems": true
+        },
+        "status": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/status"
+          },
+          "uniqueItems": true
+        },
+        "evidence_type": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/evidence_type"
+          },
+          "uniqueItems": true
+        },
+        "boolean_choice": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/yes_no"
+          },
+          "uniqueItems": true
+        },
+        "save_state": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/save_state"
+          },
+          "uniqueItems": true
+        },
+        "review_decision": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/review_decision"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "columns": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "required"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "required": {
+            "type": "boolean"
+          },
+          "choices": {
+            "type": "string",
+            "enum": [
+              "track",
+              "level",
+              "category",
+              "status",
+              "evidence_type",
+              "boolean_choice",
+              "save_state",
+              "review_decision"
+            ]
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "workflow_steps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "step",
+          "section",
+          "rows"
+        ],
+        "properties": {
+          "step": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "section": {
+            "type": "string",
+            "minLength": 1
+          },
+          "rows": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "final_readback_rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "criterion_key",
+          "category",
+          "pass_value"
+        ],
+        "properties": {
+          "criterion_key": {
+            "type": "string",
+            "minLength": 1
+          },
+          "category": {
+            "$ref": "#/$defs/category"
+          },
+          "pass_value": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "rows": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/row"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "track": {
+      "type": "string",
+      "enum": [
+        "metal",
+        "osps",
+        "readback"
+      ]
+    },
+    "level": {
+      "type": "string",
+      "enum": [
+        "passing",
+        "silver",
+        "gold",
+        "baseline-1",
+        "baseline-2",
+        "baseline-3",
+        "readback"
+      ]
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "identity",
+        "contribution_license",
+        "repo_release",
+        "reporting_vulnerability",
+        "build_install_dependencies",
+        "testing_quality",
+        "warnings_analysis",
+        "security_design",
+        "crypto",
+        "governance_review",
+        "gold_blockers",
+        "osps_access_control",
+        "osps_build_release",
+        "osps_documentation",
+        "osps_governance",
+        "osps_legal",
+        "osps_quality",
+        "osps_security_assessment",
+        "osps_vulnerability_management",
+        "readback"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "Met",
+        "N/A",
+        "Unmet",
+        "?"
+      ]
+    },
+    "evidence_type": {
+      "type": "string",
+      "enum": [
+        "repo_file",
+        "release",
+        "workflow",
+        "issue_or_pr",
+        "security_advisory",
+        "project_setting",
+        "manual_admin_proof",
+        "not_applicable_rationale",
+        "none"
+      ]
+    },
+    "yes_no": {
+      "type": "string",
+      "enum": [
+        "yes",
+        "no"
+      ]
+    },
+    "save_state": {
+      "type": "string",
+      "enum": [
+        "not_started",
+        "drafted",
+        "opened",
+        "saved",
+        "readback_passed",
+        "blocked",
+        "deferred"
+      ]
+    },
+    "review_decision": {
+      "type": "string",
+      "enum": [
+        "accept",
+        "revise",
+        "keep_unknown",
+        "keep_unmet",
+        "keep_na",
+        "defer"
+      ]
+    },
+    "row": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "target_repo",
+        "track",
+        "level",
+        "category",
+        "criterion_key",
+        "current_status",
+        "target_status",
+        "current_justification",
+        "target_justification",
+        "evidence_type",
+        "stale_reference",
+        "manual_proof_required",
+        "save_state",
+        "review_decision",
+        "checked"
+      ],
+      "properties": {
+        "project_id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_repo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "track": {
+          "$ref": "#/$defs/track"
+        },
+        "level": {
+          "$ref": "#/$defs/level"
+        },
+        "category": {
+          "$ref": "#/$defs/category"
+        },
+        "criterion_key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "current_status": {
+          "$ref": "#/$defs/status"
+        },
+        "target_status": {
+          "$ref": "#/$defs/status"
+        },
+        "current_justification": {
+          "type": "string"
+        },
+        "target_justification": {
+          "type": "string"
+        },
+        "evidence_type": {
+          "$ref": "#/$defs/evidence_type"
+        },
+        "evidence_url": {
+          "type": "string"
+        },
+        "stale_reference": {
+          "$ref": "#/$defs/yes_no"
+        },
+        "manual_proof_required": {
+          "$ref": "#/$defs/yes_no"
+        },
+        "save_state": {
+          "$ref": "#/$defs/save_state"
+        },
+        "review_decision": {
+          "$ref": "#/$defs/review_decision"
+        },
+        "save_url": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "checked": {
+          "$ref": "#/$defs/yes_no"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

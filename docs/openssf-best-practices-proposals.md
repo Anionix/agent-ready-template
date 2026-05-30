@@ -11,6 +11,9 @@ Use these links in the OpenSSF UI. They do not write through the REST API, and
 they do not commit `.bestpractices.json`. Each URL includes `overrides=` so
 existing old-repo evidence is highlighted for deliberate replacement.
 
+For reusable row-level tracking across repository migrations or badge refreshes,
+use `docs/openssf-checksheet-template.md`.
+
 ## Save Order
 
 1. Open and save the Passing proposal.

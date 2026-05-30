@@ -1,0 +1,276 @@
+schema_version: 1
+project:
+  project_id: "42"
+  target_repo: "https://github.com/example/project"
+  target_homepage: "https://github.com/example/project"
+  expected_badge_level: "silver"
+  old_references:
+    - "example-old/project"
+  notes: "Small example showing representative row states."
+choice_sets:
+  track:
+    - metal
+    - osps
+    - readback
+  level:
+    - passing
+    - silver
+    - gold
+    - baseline-1
+    - baseline-2
+    - baseline-3
+    - readback
+  category:
+    - identity
+    - contribution_license
+    - repo_release
+    - reporting_vulnerability
+    - build_install_dependencies
+    - testing_quality
+    - warnings_analysis
+    - security_design
+    - crypto
+    - governance_review
+    - gold_blockers
+    - osps_access_control
+    - osps_build_release
+    - osps_documentation
+    - osps_governance
+    - osps_legal
+    - osps_quality
+    - osps_security_assessment
+    - osps_vulnerability_management
+    - readback
+  status:
+    - Met
+    - N/A
+    - Unmet
+    - "?"
+  evidence_type:
+    - repo_file
+    - release
+    - workflow
+    - issue_or_pr
+    - security_advisory
+    - project_setting
+    - manual_admin_proof
+    - not_applicable_rationale
+    - none
+  boolean_choice:
+    - "yes"
+    - "no"
+  save_state:
+    - not_started
+    - drafted
+    - opened
+    - saved
+    - readback_passed
+    - blocked
+    - deferred
+  review_decision:
+    - accept
+    - revise
+    - keep_unknown
+    - keep_unmet
+    - keep_na
+    - defer
+columns:
+  - name: project_id
+    required: true
+  - name: target_repo
+    required: true
+  - name: track
+    required: true
+    choices: track
+  - name: level
+    required: true
+    choices: level
+  - name: category
+    required: true
+    choices: category
+  - name: criterion_key
+    required: true
+  - name: current_status
+    required: true
+    choices: status
+  - name: target_status
+    required: true
+    choices: status
+  - name: current_justification
+    required: true
+  - name: target_justification
+    required: true
+  - name: evidence_type
+    required: true
+    choices: evidence_type
+  - name: evidence_url
+    required: false
+  - name: stale_reference
+    required: true
+    choices: boolean_choice
+  - name: manual_proof_required
+    required: true
+    choices: boolean_choice
+  - name: save_state
+    required: true
+    choices: save_state
+  - name: review_decision
+    required: true
+    choices: review_decision
+  - name: save_url
+    required: false
+  - name: owner
+    required: false
+  - name: checked
+    required: true
+    choices: boolean_choice
+  - name: notes
+    required: false
+workflow_steps:
+  - step: 1
+    section: passing/edit
+    rows: "Passing and identity rows"
+  - step: 2
+    section: silver/edit governance/docs
+    rows: "Silver governance and documentation rows"
+  - step: 3
+    section: silver/edit quality/build
+    rows: "Silver build, install, dependency, and QA rows"
+  - step: 4
+    section: silver/edit security/release
+    rows: "Silver security, cryptography, and release rows"
+  - step: 5
+    section: gold/edit caveats
+    rows: "Gold review caveat rows"
+  - step: 6
+    section: baseline-1/edit
+    rows: "OSPS Baseline 1 rows"
+  - step: 7
+    section: baseline-2/edit
+    rows: "OSPS Baseline 2 rows"
+  - step: 8
+    section: baseline-3/edit
+    rows: "OSPS Baseline 3 rows"
+  - step: 9
+    section: JSON readback
+    rows: "Project-wide verification rows"
+final_readback_rows:
+  - criterion_key: repo_url
+    category: identity
+    pass_value: "Target repository URL"
+  - criterion_key: homepage_url
+    category: identity
+    pass_value: "Target homepage URL"
+  - criterion_key: badge_level
+    category: identity
+    pass_value: "Expected badge level"
+  - criterion_key: stale_reference_count
+    category: readback
+    pass_value: "0"
+  - criterion_key: overclaimed_gold_count
+    category: gold_blockers
+    pass_value: "0"
+  - criterion_key: manual_proof_pending_count
+    category: readback
+    pass_value: "Known and documented"
+rows:
+  - project_id: "42"
+    target_repo: "https://github.com/example/project"
+    track: metal
+    level: passing
+    category: identity
+    criterion_key: repo_public
+    current_status: Met
+    target_status: Met
+    current_justification: "Repository is public at the current target URL."
+    target_justification: "Repository is public at https://github.com/example/project."
+    evidence_type: project_setting
+    evidence_url: "https://github.com/example/project"
+    stale_reference: "no"
+    manual_proof_required: "no"
+    save_state: drafted
+    review_decision: accept
+    save_url: "https://www.bestpractices.dev/en/projects/42/passing/edit"
+    owner: maintainer
+    checked: "no"
+    notes: "Representative Passing row."
+  - project_id: "42"
+    target_repo: "https://github.com/example/project"
+    track: metal
+    level: silver
+    category: repo_release
+    criterion_key: signed_releases
+    current_status: "?"
+    target_status: Met
+    current_justification: ""
+    target_justification: "Release artifacts are signed and verification instructions are documented."
+    evidence_type: release
+    evidence_url: "https://github.com/example/project/releases/tag/v1.0.0"
+    stale_reference: "no"
+    manual_proof_required: "no"
+    save_state: drafted
+    review_decision: accept
+    save_url: "https://www.bestpractices.dev/en/projects/42/silver/edit"
+    owner: maintainer
+    checked: "no"
+    notes: "Use only after release assets exist."
+  - project_id: "42"
+    target_repo: "https://github.com/example/project"
+    track: osps
+    level: baseline-1
+    category: osps_access_control
+    criterion_key: OSPS-AC-01.01
+    current_status: "?"
+    target_status: "?"
+    current_justification: ""
+    target_justification: "MFA enforcement must be verified by a repository or organization admin."
+    evidence_type: manual_admin_proof
+    evidence_url: ""
+    stale_reference: "no"
+    manual_proof_required: "yes"
+    save_state: deferred
+    review_decision: defer
+    save_url: "https://www.bestpractices.dev/en/projects/42/baseline-1/edit"
+    owner: maintainer
+    checked: "no"
+    notes: "Do not mark Met until admin proof is available."
+  - project_id: "42"
+    target_repo: "https://github.com/example/project"
+    track: metal
+    level: gold
+    category: gold_blockers
+    criterion_key: two_person_review
+    current_status: Unmet
+    target_status: Unmet
+    current_justification: "The project does not yet require two-person review."
+    target_justification: "The project does not yet require two-person review."
+    evidence_type: repo_file
+    evidence_url: "https://github.com/example/project/blob/main/GOVERNANCE.md"
+    stale_reference: "no"
+    manual_proof_required: "no"
+    save_state: drafted
+    review_decision: keep_unmet
+    save_url: "https://www.bestpractices.dev/en/projects/42/gold/edit"
+    owner: maintainer
+    checked: "no"
+    notes: "Gold blocker is intentionally preserved."
+  - project_id: "42"
+    target_repo: "https://github.com/example/project"
+    track: readback
+    level: readback
+    category: readback
+    criterion_key: stale_reference_count
+    current_status: "?"
+    target_status: Met
+    current_justification: ""
+    target_justification: "Project JSON contains zero stale repository, domain, project, or release references."
+    evidence_type: none
+    evidence_url: ""
+    stale_reference: "yes"
+    manual_proof_required: "no"
+    save_state: not_started
+    review_decision: revise
+    save_url: ""
+    owner: maintainer
+    checked: "no"
+    notes: "Pass value is zero stale references."
