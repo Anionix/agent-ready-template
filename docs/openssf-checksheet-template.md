@@ -32,6 +32,10 @@ and readback JSON should be generated from a filled YAML sheet and kept under
 | `save_state` | yes | One of the save state choices below |
 | `review_decision` | yes | One of the review decision choices below |
 | `save_url` | no | Best Practices edit/proposal URL |
+| `save_step` | no | Workflow step number used by automation |
+| `autofill_rule_id` | no | Rule or catalog entry used by automation |
+| `autofill_confidence` | no | `high`, `medium`, `low`, `manual` |
+| `autofill_reason` | no | Short explanation for the automated decision |
 | `owner` | no | Person responsible for review/save/readback |
 | `checked` | yes | `yes`, `no` |
 | `notes` | no | Caveats, blockers, or manual proof notes |
@@ -83,6 +87,15 @@ Use these review decision values:
 | `keep_unmet` | Keep `Unmet` because the criterion is truly unmet |
 | `keep_na` | Keep `N/A` with a clear scope rationale |
 | `defer` | Wait for manual/admin/private proof |
+
+Use these autofill confidence values:
+
+| Autofill confidence | Meaning |
+| --- | --- |
+| `high` | Strong public evidence or deterministic readback |
+| `medium` | Mechanical migration or stale-reference rewrite that still needs review |
+| `low` | Conservative carry-forward from current readback |
+| `manual` | Human, maintainer, or admin proof is required |
 
 ## Categories
 
@@ -205,3 +218,7 @@ Clean migration readback means:
 - stale reference search returns zero rows,
 - manual/admin-only claims are either verified or explicitly deferred, and
 - Gold claims are not marked `Met` unless the project actually satisfies them.
+
+Automation may add `source`, `save_step`, and `autofill_*` metadata. These
+fields are part of the schema so generated sheets remain reviewable by humans
+and machine-checkable by AI agents.
