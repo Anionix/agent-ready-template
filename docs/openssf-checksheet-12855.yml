@@ -14,7 +14,7 @@ project:
 source:
   project_json_url: https://www.bestpractices.dev/projects/12855.json
   generated_by: ossf-badge-workbench
-  generated_at: unix:1780111399
+  generated_at: unix:1780116309
   notes: 'Conservative autofill: uncertain, private, and admin-only claims are deferred.'
 choice_sets:
   track:
@@ -2942,9 +2942,9 @@ rows:
   current_status: Met
   target_status: Met
   current_justification: 'Release artifacts for v0.1.1 and later are signed with Sigstore keyless Cosign bundles and documented verification instructions: https://github.com/Anionix/agent-ready-repo-template-spec/blob/main/docs/release-signing.md https://github.com/Anionix/agent-ready-repo-template-spec/blob/main/.github/workflows/release.yml https://github.com/Anionix/agent-ready-repo-template-spec/releases/tag/v0.1.1'
-  target_justification: 'Release artifacts for v0.1.1 and later are signed with Sigstore keyless Cosign bundles and documented verification instructions: https://github.com/Anionix/agent-ready-template/blob/main/docs/release-signing.md https://github.com/Anionix/agent-ready-template/blob/main/.github/workflows/release.yml https://github.com/Anionix/agent-ready-template/releases/tag/v0.1.1'
+  target_justification: 'Release artifacts for v0.1.2 and later are signed with Sigstore keyless Cosign bundles and documented verification instructions: https://github.com/Anionix/agent-ready-template/blob/main/docs/release-signing.md https://github.com/Anionix/agent-ready-template/blob/main/.github/workflows/release.yml https://github.com/Anionix/agent-ready-template/releases/tag/v0.1.2'
   evidence_type: release
-  evidence_url: https://github.com/Anionix/agent-ready-template/blob/main/docs/release-signing.md
+  evidence_url: https://github.com/Anionix/agent-ready-template/releases/tag/v0.1.2
   stale_reference: 'yes'
   manual_proof_required: 'no'
   save_state: drafted
