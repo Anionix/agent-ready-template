@@ -23,7 +23,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: jdx/mise-action@69c24ed9206bc145dcdd8fa072fc6031ceb14c8d
+      - uses: jdx/mise-action@26ff5b817371f6bb2bfd46875410b00176a98773
 
       - name: Install tools
         run: mise install
