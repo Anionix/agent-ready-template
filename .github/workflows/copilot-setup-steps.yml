@@ -19,7 +19,7 @@ jobs:
     steps:
       - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10
 
-      - uses: jdx/mise-action@b2321533f9ffeba9fa7437e430862a2f165fdb66
+      - uses: jdx/mise-action@d627b18e3a6b43a1ebeb8116ddeb758de11949f1
 
       - name: Install tools
         run: mise install
